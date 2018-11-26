@@ -3,3 +3,6 @@ sysctl -w vm.max_map_count=262144
 
 Test ElasticSearch:
 curl -X PUT -H 'Content-Type: application/json' 'http://10.107.238.252:9200/blog/user/dilbert' -d '{ "name" : "Dilbert Brown" }' 
+
+Logstash:
+kubectl create configmap logstash-config -n elasticsearch --from-file=logstash.conf
