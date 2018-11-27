@@ -6,3 +6,11 @@ curl -X PUT -H 'Content-Type: application/json' 'http://10.107.238.252:9200/blog
 
 Logstash:
 kubectl create configmap logstash-config -n elasticsearch --from-file=logstash.conf
+
+collectd:
+## RHEL/CentOS 7 64-Bit ##
+# wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# rpm -ivh epel-release-latest-7.noarch.rpm
+## RHEL/CentOS 6 64-Bit ##
+# wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+# rpm -ivh epel-release-6-8.noarch.rpm
