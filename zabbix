@@ -1,0 +1,6 @@
+change NFS service file with no_root_squash
+/xen-iso 192.168.1.0/24(rw,sync,no_root_squash)
+/home/xen-vd 192.168.1.0/24(rw,sync,no_root_squash)
+/home/xen-vd 172.16.1.0/24(rw,sync,no_root_squash)
+
+deploy mysql
