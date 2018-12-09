@@ -6,11 +6,35 @@ curl -X PUT -H 'Content-Type: application/json' 'http://10.107.238.252:9200/blog
 
 Logstash:
 kubectl create configmap logstash-config -n elasticsearch --from-file=logstash.conf
+  raw install: 
+    # yum install java-1.8.0-openjdk
+    # java -version
+    # rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    Add the following in your /etc/yum.repos.d/ directory in a file with a .repo suffix, for example logstash.repo
+    [logstash-6.x]
+    name=Elastic repository for 6.x packages
+    baseurl=https://artifacts.elastic.co/packages/6.x/yum
+    gpgcheck=1
+    gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    enabled=1
+    autorefresh=1
+    type=rpm-md
+    
+    # yum install logstash
+    # PATH=$PATH:/usr/share/logstash/bin
+
 
 collectd:
 ## RHEL/CentOS 7 64-Bit ##
+# yum install epel-release
+# OR:
 # wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 # rpm -ivh epel-release-latest-7.noarch.rpm
 ## RHEL/CentOS 6 64-Bit ##
 # wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 # rpm -ivh epel-release-6-8.noarch.rpm
+
+yum install collectd
+cd /etc/
+vi collectd.conf
+
