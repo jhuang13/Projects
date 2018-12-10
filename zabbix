@@ -4,3 +4,7 @@ change NFS service file with no_root_squash
 /home/xen-vd 172.16.1.0/24(rw,sync,no_root_squash)
 
 deploy mysql
+
+deploy zabbix-server
+
+deploy zabbix-web
