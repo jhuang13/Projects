@@ -1,0 +1,3 @@
+      - ./config/proxy/server.crt:/opt/bitnami/nginx/conf/server.crt:ro
+      - ./config/proxy/server.key:/opt/bitnami/nginx/conf/server.key:ro
+
