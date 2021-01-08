@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  beacon-server:
+    depends_on:
+      - redis-server
+    build: ../
+    restart: always
+    command: sh /beacon-server/entrypoint/entrypoint_local.sh
+    volumes:
+      - ../../beacon-server:/beacon-server
+    ports:
+      - 8000:8000
+    environment:
+      - FLASK_ENV=development
+      - DEBUG=True
+      - PORT=8000
+      - GLOBAL_REDIS_HOST=9.181.48.110
+      - GLOBAL_REDIS_PORT=15379
+      - GLOBAL_REDIS_INIT_DB=0
+      - GLOBAL_REDIS_SCHEMA_DB=0
+      - GLOBAL_REDIS_DATA_DB=0
+      - LOG_STASH_HOST=9.111.147.175
+      - LOG_STASH_PORT=5000
+      - PROJECT_INSTANCE=dev-local
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - LOG_FILE=/beacon-server/logs/beacon-server.log
+      - GLOBAL_RABBITMQ_HOST=9.181.48.101
+      - GLOBAL_RABBITMQ_PORT=25672
+      - API_HOST=https://beacon.cn.ibm.com:18443
+
+#  redis-server:
+#    image: 'redis:4.0-alpine'
+#    command: redis-server
+#    volumes:
+#      - ~/redis/data:/data
+#    environment:
+#      - ALLOW_EMPTY_PASSWORD=yes
+
+

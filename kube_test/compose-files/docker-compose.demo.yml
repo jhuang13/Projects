@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  beacon-server:
+    build: ../
+    restart: always
+    command: sh /beacon-server/entrypoint/entrypoint_demo.sh
+    volumes:
+      - ../../beacon-server:/beacon-server
+      - /excel_file/data_schema:/tmp/excel_file/data_schema
+      - /excel_file/export_files:/tmp/excel_file/export_files
+    ports:
+      - 8000:8000
+    environment:
+      - FLASK_ENV=production
+      - DEBUG=True
+      - PORT=8000
+      - GLOBAL_REDIS_HOST=9.181.48.106
+      - GLOBAL_REDIS_PORT=6379
+      - GLOBAL_REDIS_INIT_DB=0
+      - GLOBAL_REDIS_SCHEMA_DB=0
+      - GLOBAL_REDIS_DATA_DB=0
+      - LOG_STASH_HOST=9.111.147.175
+      - LOG_STASH_PORT=5000
+      - PROJECT_INSTANCE=demo-ned106
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - LOG_FILE=/beacon-server/logs/beacon-server.log
+      - GLOBAL_RABBITMQ_HOST=9.181.48.106
+      - GLOBAL_RABBITMQ_PORT=5672
+      - API_HOST=https://9.181.48.100:8443

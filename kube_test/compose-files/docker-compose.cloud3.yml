@@ -1,0 +1,173 @@
+version: '3.7'
+
+services:
+  beacon-server_prodction-1:
+    build: ../
+    restart: always
+    command: sh /beacon-server/entrypoint/entrypoint_production.sh
+#    logging:
+#      driver: fluentd
+#      options:
+#        fluentd-address: 127.0.0.1:24224
+#        tag: cloud2.beacon_server.docker_logs
+    volumes:
+      - ../../beacon-server:/beacon-server
+      - /beacon/client:/beacon/client/
+      - /beacon/files:/beacon/files
+      - /beacon/files_user:/beacon/files_user
+      - /excel_file/data_schema:/tmp/excel_file/data_schema
+      - /excel_file/export_files:/tmp/excel_file/export_files
+      - /beacon/speed_test:/beacon/speed_test
+      - /beacon/es_cert:/beacon/es_cert/
+#    ports:
+#      - 8000:8000
+    environment:
+      - FLASK_ENV=cloud3
+      - DEBUG=True
+      - PORT=8000
+      - GLOBAL_REDIS_HOST=beacon-redis_redis-server_15379_1
+      - GLOBAL_REDIS_PORT=6379
+      - GLOBAL_REDIS_INIT_DB=0
+      - GLOBAL_REDIS_SCHEMA_DB=0
+      - GLOBAL_REDIS_DATA_DB=0
+      - LOG_STASH_HOST=9.111.147.175
+      - LOG_STASH_PORT=5000
+      - PROJECT_INSTANCE=dev-ned106
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - LOG_FILE=/beacon-server/logs/beacon-server.log
+      - GLOBAL_RABBITMQ_HOST=tpydalned1103.sl.bluecloud.ibm.com
+      - GLOBAL_RABBITMQ_PORT=25672
+      - API_HOST=https://tpydalned1103.sl.bluecloud.ibm.com
+      - AGENT_INSTALL_LOCATION=/beacon/client
+      - AES_KEY=/beacon-server/certificates/beacon.key
+      - UPLOAD_FILE_PATH=/beacon/files
+      - USER_UPLOAD_FILE_PATH=/beacon/files_user
+      - NGINX_BACKEND_ID=tpydalned1101_1
+      - ENV=production
+      - SPEED_TEST_FILE_PATH=/beacon/speed_test
+      - EMAIL_SENDER_QUEUE=cloud3-routine_lower
+      - EMAIL_SENDER_DISPLAY_NAME=system-script/email_sender/email_sender
+      - ROUTINE_HIGH_QUEUE=cloud3-routine-high
+      - SYSTEM_HIGH_QUEUE=cloud3-routine-high
+      - ES_SERVER=dbc44345-866c-4b0e-afa4-35b25dadcf01.b2b5a92ee2df47d58bad0fa448c15585.private.databases.appdomain.cloud:30490
+      - ES_AUTH=admin:netools2020
+      - ES_TABLE_NAME_PREFIX=beacon.cloud3.database.table.
+    networks:
+      - default
+
+  beacon-server_prodction-2:
+    build: ../
+    restart: always
+    command: sh /beacon-server/entrypoint/entrypoint_production.sh
+#    logging:
+#      driver: fluentd
+#      options:
+#        fluentd-address: 127.0.0.1:24224
+#        tag: cloud2.beacon_server.docker_logs
+    volumes:
+      - ../../beacon-server:/beacon-server
+      - /beacon/client:/beacon/client/
+      - /beacon/files:/beacon/files
+      - /beacon/files_user:/beacon/files_user
+      - /excel_file/data_schema:/tmp/excel_file/data_schema
+      - /excel_file/export_files:/tmp/excel_file/export_files
+      - /beacon/speed_test:/beacon/speed_test
+      - /beacon/es_cert:/beacon/es_cert/
+#    ports:
+#      - 8000:8000
+    environment:
+      - FLASK_ENV=cloud3
+      - DEBUG=True
+      - PORT=8000
+      - GLOBAL_REDIS_HOST=beacon-redis_redis-server_15379_1
+      - GLOBAL_REDIS_PORT=6379
+      - GLOBAL_REDIS_INIT_DB=0
+      - GLOBAL_REDIS_SCHEMA_DB=0
+      - GLOBAL_REDIS_DATA_DB=0
+      - LOG_STASH_HOST=9.111.147.175
+      - LOG_STASH_PORT=5000
+      - PROJECT_INSTANCE=dev-ned106
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - LOG_FILE=/beacon-server/logs/beacon-server.log
+      - GLOBAL_RABBITMQ_HOST=tpydalned1103.sl.bluecloud.ibm.com
+      - GLOBAL_RABBITMQ_PORT=25672
+      - API_HOST=https://tpydalned1103.sl.bluecloud.ibm.com
+      - AGENT_INSTALL_LOCATION=/beacon/client
+      - AES_KEY=/beacon-server/certificates/beacon.key
+      - UPLOAD_FILE_PATH=/beacon/files
+      - USER_UPLOAD_FILE_PATH=/beacon/files_user
+      - NGINX_BACKEND_ID=tpydalned1101_2
+      - ENV=production
+      - SPEED_TEST_FILE_PATH=/beacon/speed_test
+      - EMAIL_SENDER_QUEUE=cloud3-routine_lower
+      - EMAIL_SENDER_DISPLAY_NAME=system-script/email_sender/email_sender
+      - ROUTINE_HIGH_QUEUE=cloud3-routine-high
+      - SYSTEM_HIGH_QUEUE=cloud3-routine-high
+      - ES_SERVER=dbc44345-866c-4b0e-afa4-35b25dadcf01.b2b5a92ee2df47d58bad0fa448c15585.private.databases.appdomain.cloud:30490
+      - ES_AUTH=admin:netools2020
+      - ES_TABLE_NAME_PREFIX=beacon.cloud3.database.table.
+    networks:
+      - default
+
+
+  beacon-server-backend:
+    build: ../
+    restart: always
+    command: sh /beacon-server/entrypoint/entrypoint_backend.sh
+    volumes:
+      - ../../beacon-server:/beacon-server
+      - /beacon/client:/beacon/client/
+      - /beacon/files:/beacon/files
+      - /beacon/files_user:/beacon/files_user
+      - /excel_file/data_schema:/tmp/excel_file/data_schema
+      - /excel_file/export_files:/tmp/excel_file/export_files
+      - /beacon/speed_test:/beacon/speed_test
+      - /beacon/es_cert:/beacon/es_cert/
+#    ports:
+#      - 8000:8000
+    environment:
+      - FLASK_ENV=development
+      - DEBUG=True
+      - PORT=8000
+      - GLOBAL_REDIS_HOST=beacon-redis_redis-server_15379_1
+      - GLOBAL_REDIS_PORT=6379
+      - GLOBAL_REDIS_INIT_DB=0
+      - GLOBAL_REDIS_SCHEMA_DB=0
+      - GLOBAL_REDIS_DATA_DB=0
+      - LOG_STASH_HOST=9.111.147.175
+      - LOG_STASH_PORT=5000
+      - PROJECT_INSTANCE=dev-ned106
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - LOG_FILE=/beacon-server/logs/beacon-server.log
+      - GLOBAL_RABBITMQ_HOST=tpydalned1103.sl.bluecloud.ibm.com
+      - GLOBAL_RABBITMQ_PORT=25672
+      - API_HOST=https://tpydalned1103.sl.bluecloud.ibm.com
+      - AGENT_INSTALL_LOCATION=/beacon/client
+      - AES_KEY=/beacon-server/certificates/beacon.key
+      - UPLOAD_FILE_PATH=/beacon/files
+      - USER_UPLOAD_FILE_PATH=/beacon/files_user
+      - NGINX_BACKEND_ID=ned101_1
+      - ENV=dev
+      - PERMISSION_CONTROL=False
+      - SPEED_TEST_FILE_PATH=/beacon/speed_test
+      - EMAIL_SENDER_QUEUE=cloud3-routine_lower
+      - EMAIL_SENDER_DISPLAY_NAME=system-script/email_sender/email_sender
+      - ROUTINE_HIGH_QUEUE=cloud3-routine-high
+      - SYSTEM_HIGH_QUEUE=cloud3-routine-high
+      - ES_SERVER=dbc44345-866c-4b0e-afa4-35b25dadcf01.b2b5a92ee2df47d58bad0fa448c15585.private.databases.appdomain.cloud:30490
+      - ES_AUTH=admin:netools2020
+      - ES_TABLE_NAME_PREFIX=beacon.cloud3.database.table.
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: beacon_network
+
+  backend:
+    external:
+      name: backend_network

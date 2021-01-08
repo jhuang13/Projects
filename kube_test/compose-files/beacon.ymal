@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beacon-server
+  labels:
+    app: beacon-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: beacon-server
+  template:
+    metadata:
+      labels:
+        app: beacon-server
+    spec:
+      containers:
+      - name: beacon-server
+        image: andy-lab-1:88/beacon/beacon:v1.2.2
+        command:
+        - sh
+        - "/beacon-server/entrypoint/entrypoint_backend.sh"
+        env:
+          - name: FLASK_ENV
+            value: "development"
+          - name: DEBUG
+            value: "True"
+          - name: PORT
+            value: "8000"
+          - name: GLOBAL_REDIS_HOST
+            value: "9.181.48.101"
+          - name: GLOBAL_REDIS_PORT
+            value: "15379"
+          - name: GLOBAL_REDIS_INIT_DB
+            value: "0"
+          - name: GLOBAL_REDIS_SCHEMA_DB
+            value: "0"
+          - name: GLOBAL_REDIS_DATA_DB
+            value: "0"
+          - name: LOG_STASH_HOST
+            value: "9.111.147.175"
+          - name: LOG_STASH_PORT
+            value: "5000"
+          - name: PROJECT_INSTANCE
+            value: "dev-ned106"
+          - name: FLASK_APP
+            value: "run.py"
+          - name: FLASK_DEBUG
+            value: "1"
+          - name: LOG_FILE
+            value: "/beacon-server/logs/beacon-server.log"
+          - name: GLOBAL_RABBITMQ_HOST
+            value: "9.181.48.101"
+          - name: GLOBAL_RABBITMQ_PORT
+            value: "25672"
+          - name: API_HOST
+            value: "https://beacon.cn.ibm.com:18443"
+          - name: AGENT_INSTALL_LOCATION
+            value: "/beacon/client"
+          - name: AES_KEY
+            value: "/beacon-server/certificates/beacon.key"
+          - name: UPLOAD_FILE_PATH
+            value: "/beacon/files"
+          - name: USER_UPLOAD_FILE_PATH
+            value: "/beacon/files_user"
+          - name: NGINX_BACKEND_ID
+            value: "ned101_2"
+          - name: ENV
+            value: "dev"
+          - name: SPEED_TEST_FILE_PATH
+            value: "/beacon/speed_test"
+          - name: EMAIL_SENDER_QUEUE
+            value: "dev-system-high"
+          - name: EMAIL_SENDER_DISPLAY_NAME
+            value: "system-script/email_sender/email_sender"
+          - name: ROUTINE_HIGH_QUEUE
+            value: "dev-routine-high"
+          - name: SYSTEM_HIGH_QUEUE
+            value: "dev-system-high"
+          - name: ES_SERVER
+            value: "9.94.82.30:9200,9.94.82.30:9201,9.94.82.30:9202"
+        volumeMounts:
+        - mountPath: /beacon
+          name: beacon
+        - mountPath: /excel_file
+          name: excel-file
+      volumes:
+      - name: beacon
+        hostPath:
+          path: /beacon
+      - name: excel-file
+        hostPath:
+          path: /excel_file
+

@@ -1,0 +1,6 @@
+FROM redis
+COPY redis.master.conf /usr/local/etc/redis/redis.conf
+RUN chmod 777 /usr/local/etc/redis
+RUN chmod 777 /tmp
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+#CMD ["sleep", "99999999999"]

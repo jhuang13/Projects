@@ -1,0 +1,4 @@
+FROM redis
+COPY sentinel.conf /usr/local/etc/redis/redis.conf
+COPY redis.log /usr/local/etc/redis/redis.log
+CMD [ "redis-sentinel", "/usr/local/etc/redis/redis.conf" ]

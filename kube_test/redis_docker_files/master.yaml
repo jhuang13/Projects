@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-master
+  labels:
+    app: redis-master
+    
+spec:
+  serviceName: "redis-master"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-master
+      
+
+  template:
+    metadata:
+      labels:
+        app: redis-master
+        
+    spec:
+      nodeSelector:
+        redis: master
+      containers:
+      - name: redis-master
+        image: andy-lab-1:88/beacon/redis-master:v1.11
+        ports:
+        - containerPort: 6379
+          name: redis
+        volumeMounts:
+        - mountPath: /data
+          name: data
+
+      volumes:
+      - name: data
+        hostPath:
+          path: /mnt/data
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master
+  labels:
+    app: redis-master
+spec:
+  ports:
+  - port: 6379
+    name: redis
+  clusterIP: None
+  selector:
+    app: redis-master
+
