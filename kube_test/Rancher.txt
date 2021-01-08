@@ -1,0 +1,69 @@
+# Rancher 部署指南
+
+config CentOS repo
+
+[base]
+name=CentOS $releasever – Base
+baseurl=http://mirror.centos.org/centos/7/os/$basearch/
+gpgcheck=0
+enabled=1
+
+[updates]
+name=CentOS $releasever – Updates
+baseurl=http://mirror.centos.org/centos/7/updates/$basearch/
+gpgcheck=0
+enabled=1
+
+[extras]
+name=CentOS $releasever – Extras
+baseurl=http://mirror.centos.org/centos/7/extras/$basearch/
+gpgcheck=0
+enabled=1
+
+sudo yum remove -y docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+
+echo "n1-master-1" > /etc/hostname
+
+
+sudo yum install -y yum-utils
+
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+change repo file url.
+
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+
+echo "9.181.48.140   n1-master-1" >> /etc/hosts
+echo "9.181.48.141   n1-worker-1" >> /etc/hosts
+echo "9.181.48.139   andy-lab-1" >> /etc/hosts
+echo "9.181.48.169   n2-master-1" >> /etc/hosts
+echo "9.181.48.168   n2-worker-1" >> /etc/hosts
+echo "9.181.48.170   n2-worker-2" >> /etc/hosts
+
+!!!!
+systemctl disable firewalld.service
+systemctl stop firewalld.service
+
+!!! change daemon.json to allow insecure registry
+
+run rancher-server. docker run command from rancher website.
+
+Run rancher agent:（坑：docker hub 每日下载的次数有限。太多node的部署会导致一些node pull不到image）
+sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.5.3 --server https://9.181.48.139 --token dp7x5fclhdqcnmfjm2bvs45mwdwwn6f7pzrq2snnc8g48v25cwth6g --ca-checksum 696ab77ce4af527ccfcfa9852778522fb0f409b040696731fded05671b2d9961 --etcd --controlplane
+
+https://download.docker.com/linux/centos/7Server/x86_64/stable/repodata/repomd.xml
+https://download.docker.com/linux/centos/7/x86_64/stable/repodata/repomd.xml
+
+sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.5.3 --server https://9.181.48.139 --token dp7x5fclhdqcnmfjm2bvs45mwdwwn6f7pzrq2snnc8g48v25cwth6g --ca-checksum 696ab77ce4af527ccfcfa9852778522fb0f409b040696731fded05671b2d9961 --worker
