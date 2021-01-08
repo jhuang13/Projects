@@ -1,0 +1,3 @@
+# Redis Sentinel的坑：
+用K8s起sentinel+redis. master挂了failover没问题。
+但是当master起来的时候。sentinel很傻。不会去用master的name去找新起来的master 的ip。这就导致了之前master起来后无法加入集群也就无法通过sentinel转变成slave。
